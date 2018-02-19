@@ -2,7 +2,10 @@
 A program that generates logos resembling the ChainLink logo.
 
 ## Usage
+![Interface](https://i.imgur.com/AWwv4Mq.png)
 Install the Carbon Regular font, located at the repository root. Launch LinkGenGui.exe.
+
+Everything should be straightforward enough. I'll eventually write more detailed instructions here.
 
 ## Building
 The solution should build without any problems under VS 2017 Community. If you're using Mono, try `nuget restore` and `xbuild` at the repo root.
