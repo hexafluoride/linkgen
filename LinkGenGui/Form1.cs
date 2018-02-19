@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,6 +23,7 @@ namespace LinkGenGui
 
         public Form1()
         {
+            Form.CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             CurrentLink = new ChainLink(0.2);
 
@@ -33,13 +35,32 @@ namespace LinkGenGui
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            UpdateLink();
+            SaveButton.Text = "Saving...";
+            SaveButton.Enabled = false;
+            Enabled = false;
 
-            double scale = CurrentLink.GetScalingFactor();
-            CurrentLink.SetSize((int)Math.Round(SaveWidth), (int)Math.Round(SaveHeight));
-            CurrentLink.Draw();
-            CurrentLink.MainImage.Write(Path.Combine(PathBox.Text, FilenameText.Text));
-            CurrentLink.SetScale(scale);
+            new Thread((ThreadStart)delegate {
+                try
+                {
+                    UpdateLink();
+
+                    double scale = CurrentLink.GetScalingFactor();
+                    CurrentLink.SetSize((int)Math.Round(SaveWidth), (int)Math.Round(SaveHeight));
+                    CurrentLink.Draw();
+                    CurrentLink.MainImage.Write(Path.Combine(PathBox.Text, FilenameText.Text));
+                    CurrentLink.SetScale(scale);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    SaveButton.Text = "Save";
+                    SaveButton.Enabled = true;
+                    Enabled = true;
+                }
+            }).Start();
         }
 
         private void UpdateLink()
