@@ -31,6 +31,8 @@ namespace LinkGenGui
             ColorPickerCache.Add(Color.FromArgb(0, 168, 254));
             ColorPickerCache.Add(Color.FromArgb(68, 68, 68));
             ColorPickerCache.Add(Color.FromArgb(220, 55, 55));
+
+            PathBox.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Linkies");
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -47,6 +49,13 @@ namespace LinkGenGui
                     double scale = CurrentLink.GetScalingFactor();
                     CurrentLink.SetSize((int)Math.Round(SaveWidth), (int)Math.Round(SaveHeight));
                     CurrentLink.Draw();
+
+                    string full_path = Path.Combine(PathBox.Text, FilenameText.Text);
+                    string dir = Path.GetDirectoryName(full_path);
+
+                    if (!Directory.Exists(dir))
+                        Directory.CreateDirectory(dir);
+
                     CurrentLink.MainImage.Write(Path.Combine(PathBox.Text, FilenameText.Text));
                     CurrentLink.SetScale(scale);
                 }
