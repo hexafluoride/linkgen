@@ -1,6 +1,6 @@
 # linkgen
 A program that generates logos resembling the ChainLink logo.
-Download binaries [here](https://github.com/hexafluoride/linkgen/releases).
+**Download [here](https://github.com/hexafluoride/linkgen/releases).**
 
 ## Usage
 ![Interface](https://i.imgur.com/AWwv4Mq.png)
